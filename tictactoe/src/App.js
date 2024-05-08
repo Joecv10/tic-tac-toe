@@ -5,11 +5,17 @@ import React, { useState } from "react";
 import Square from "./Square";
 
 const App = () => {
+  const [xisNext, setXisNext] = useState(true);
   const [squares, setSquares] = useState(Array(9).fill(null));
   const handleClick = (i) => {
     const nextSquare = squares.slice();
-    nextSquare[i] = "X";
+    if (xisNext) {
+      nextSquare[i] = "X";
+    } else {
+      nextSquare[i] = "O";
+    }
     setSquares(nextSquare);
+    setXisNext(!xisNext);
   };
   return (
     <div>
