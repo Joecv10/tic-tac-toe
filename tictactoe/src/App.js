@@ -4,59 +4,31 @@ import "./Square";
 import React, { useState } from "react";
 import Square from "./Square";
 
-const App = () => {
-  const [xisNext, setXisNext] = useState(true);
-  const [squares, setSquares] = useState(Array(9).fill(null));
+const App = ({ xIsNext, squares, onPlay }) => {
   const handleClick = (i) => {
-    if (squares[i] || calculateWinner(squares)) {
+    if (calculateWinner(squares) || squares[i]) {
       return;
     }
-    const nextSquare = squares.slice();
-    if (xisNext) {
-      nextSquare[i] = "X";
+    const nextSquares = squares.slice();
+    if (xIsNext) {
+      nextSquares[i] = "X";
     } else {
-      nextSquare[i] = "O";
+      nextSquares[i] = "O";
     }
-    setSquares(nextSquare);
-    setXisNext(!xisNext);
-  };
-  const calculateWinner = (squares) => {
-    const lines = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
-    ];
-
-    for (let i = 0; i < lines.length; i++) {
-      const [a, b, c] = lines[i];
-      if (
-        squares[a] &&
-        squares[a] === squares[b] &&
-        squares[a] === squares[c]
-      ) {
-        return squares[a];
-      }
-    }
-    return null;
+    onPlay(nextSquares);
   };
 
   const winner = calculateWinner(squares);
   let status;
-
   if (winner) {
-    status = `Winner: ${winner}`;
+    status = "Winner: " + winner;
   } else {
-    status = `Next player: ${xisNext ? "X" : "O"}`;
+    status = "Next player: " + (xIsNext ? "X" : "O");
   }
 
   return (
-    <div>
-      <p className="status">{status}</p>
+    <>
+      <div className="status">{status}</div>
       <div className="board-row">
         <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
         <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
@@ -72,23 +44,29 @@ const App = () => {
         <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
         <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
       </div>
-    </div>
+    </>
   );
 };
 
-function Game() {
-  return (
-    <div className="game">
-      <div className="game-board">
-        <App />
-      </div>
-      <div className="game-info">
-        <ol></ol>
-      </div>
-    </div>
-  );
-}
-
+const calculateWinner = (squares) => {
+  const lines = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+  for (let i = 0; i < lines.length; i++) {
+    const [a, b, c] = lines[i];
+    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+      return squares[a];
+    }
+  }
+  return null;
+};
 /*class App extends React.Component {
   render() {
     return (
@@ -112,4 +90,4 @@ function Game() {
     );
   }
 }*/
-export default Game;
+export default App;
