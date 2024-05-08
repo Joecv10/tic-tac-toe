@@ -76,6 +76,19 @@ const App = () => {
   );
 };
 
+function Game() {
+  return (
+    <div className="game">
+      <div className="game-board">
+        <App />
+      </div>
+      <div className="game-info">
+        <ol></ol>
+      </div>
+    </div>
+  );
+}
+
 /*class App extends React.Component {
   render() {
     return (
@@ -99,5 +112,4 @@ const App = () => {
     );
   }
 }*/
-
-export default App;
+export default Game;
