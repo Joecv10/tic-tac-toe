@@ -1,7 +1,6 @@
-import logo from "./logo.svg";
 import "./App.css";
 import "./Square";
-import React, { useState } from "react";
+import React from "react";
 import Square from "./Square";
 
 const App = ({ xIsNext, squares, onPlay }) => {
